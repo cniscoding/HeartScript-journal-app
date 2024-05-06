@@ -1,31 +1,8 @@
-'use client'
-
-import React, {useEffect, useState} from 'react';
-import { setupDatabase } from '@/app/utils/dbSetUp';
+import React from 'react';
 import JournalList from '@/components/features/JournalList';
 import JournalEntryForm from '@/components/features/JournalEntryForm';
-import { getJournalEntries } from '@/app/utils/db';
-import { JournalEntry } from '../types';
 
 const Home: React.FC = () => {
-  const [journalEntries, setJournalEntries] = useState<JournalEntry[]>([]);
-
-  useEffect(() => {
-    setupDatabase().then(() => {
-      console.log('Database setup complete.');
-      fetchJournalEntries();
-    });
-  }, []);
-
-  const fetchJournalEntries = async () => {
-    try {
-      // Fetch journal entries from the database
-      const entries = await getJournalEntries();
-      setJournalEntries(entries);
-    } catch (error) {
-      console.error('Error fetching journal entries:', error);
-    }
-  };
 
   // pull from DB   
   // const journalEntries = [
@@ -42,7 +19,8 @@ const Home: React.FC = () => {
           <JournalEntryForm />
         </div>
         <h2>Journal Entries</h2>
-        <JournalList entries={journalEntries} />
+        {/* <JournalList entries={journalEntries} /> */}
+        <JournalList />
       </div>
     </main>
   );
