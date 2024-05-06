@@ -1,9 +1,18 @@
 import React from 'react';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
 
 interface JournalEntry {
   id: number;
   title: string;
   content: string;
+  date: string;
 }
 
 interface Props {
@@ -12,14 +21,19 @@ interface Props {
 
 const JournalList: React.FC<Props> = ({ entries }) => {
   return (
-    <div>
+    <>
       {entries.map(entry => (
-        <div key={entry.id}>
-          <h2>{entry.title}</h2>
-          <p>{entry.content}</p>
-        </div>
+        <Card>
+          <CardHeader>
+            <CardTitle>{entry.title}</CardTitle>
+            <CardDescription>{entry.date}</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <p>{entry.content}</p>
+          </CardContent>
+        </Card>
       ))}
-    </div>
+    </>
   );
 };
 
