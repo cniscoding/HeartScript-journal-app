@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { DatePicker } from './DatePicker';
 
 
@@ -8,6 +8,7 @@ const JournalEntryForm: React.FC = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false)
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -23,9 +24,27 @@ const JournalEntryForm: React.FC = () => {
     setError('');
   };
 
+  useEffect(() => {
+    const inputTimeout = setTimeout(() => {
+      inputContent();
+    }, 1000);
+
+    return () => clearTimeout(inputTimeout)
+  }, [content])
+
+  function inputContent() {
+    if (content) {
+      setLoading(true)
+      // api call here
+      setLoading(false)
+    }
+  }
+
+
   return (
     <form onSubmit={handleSubmit} className="max-w-md mx-auto">
       <div>
+        {content}
         <DatePicker />
       </div>
       <div className="mb-4">

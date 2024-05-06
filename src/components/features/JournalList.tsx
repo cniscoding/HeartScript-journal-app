@@ -13,6 +13,8 @@ interface JournalEntry {
   title: string;
   content: string;
   date: string;
+  sentiments: string[];
+  sentiment_score: number;
 }
 
 interface Props {
@@ -31,6 +33,12 @@ const JournalList: React.FC<Props> = ({ entries }) => {
           <CardContent>
             <p>{entry.content}</p>
           </CardContent>
+          <CardFooter>
+            {entry.sentiments?.map(sentiment => (
+              <span key={sentiment} className="cursor-pointer bg-gray-100 text-gray-800 text-lg px-4 py-1 rounded-full border border-gray-400">{sentiment}</span>
+            ))}
+            {entry.sentiment_score}
+          </CardFooter>
         </Card>
       ))}
     </>

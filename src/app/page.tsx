@@ -6,18 +6,18 @@ import JournalEntryForm from '@/components/features/JournalEntryForm';
 const Home: React.FC = () => {
   // Assuming you have a list of entries passed from props or fetched from an API
   const journalEntries = [
-    { id: 1, title: 'First Entry', date: 'may 6, 2024', content: 'This is my first journal entry.' },
-    { id: 2, title: 'Second Entry', date: 'may 6, 2024', content: 'This is my second journal entry.' },
+    { id: 1, title: 'First Entry', date: 'may 6, 2024', content: 'This is my first journal entry.', sentiments: ['happy', 'excited'], sentiment_score: 80 },
+    { id: 2, title: 'Second Entry', date: 'may 6, 2024', content: 'This is my second journal entry.', sentiments: ["sad", "disappointed"], sentiment_score: 30 },
     // Add more entries as needed
   ];
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <div>
-      <div>
-        <h2>Journal Entry Form</h2>
-        <JournalEntryForm />
-      </div>
+        <div>
+          <h2>Journal Entry Form</h2>
+          <JournalEntryForm />
+        </div>
         <h2>Journal Entries</h2>
         <JournalList entries={journalEntries} />
       </div>
