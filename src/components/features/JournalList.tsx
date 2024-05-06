@@ -7,15 +7,16 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
+import { JournalEntry } from '../types';
 
-interface JournalEntry {
-  id: number;
-  title: string;
-  content: string;
-  date: string;
-  sentiments: string[];
-  sentiment_score: number;
-}
+// interface JournalEntry {
+//   id: number;
+//   title: string;
+//   content: string;
+//   date: string;
+//   sentiments: string[];
+//   sentiment_score: number;
+// }
 
 interface Props {
   entries: JournalEntry[];

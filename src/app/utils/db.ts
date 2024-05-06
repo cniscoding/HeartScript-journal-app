@@ -1,4 +1,5 @@
-import { Pool } from 'pg';
+import { Pool, QueryResult } from 'pg';
+import { JournalEntry } from '../types';
 
 const pool = new Pool({
   user: process.env.DB_USER,
@@ -7,5 +8,15 @@ const pool = new Pool({
   database: process.env.DB_NAME,
   port: 5432, 
 });
+
+export const getJournalEntries = async (): Promise<JournalEntry[]> => {
+  const client = await pool.connect();
+  try {
+    const result: QueryResult<JournalEntry> = await client.query('SELECT * FROM journal_app');
+    return result.rows;
+  } finally {
+    client.release();
+  }
+};
 
 export default pool;
