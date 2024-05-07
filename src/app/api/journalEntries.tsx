@@ -1,5 +1,21 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import pool from '@/lib/db';
+import { sql } from '@vercel/postgres';
+import { JournalEntry } from '@/app/types';
+
+export async function fetchJournalEntries() {
+  try {
+    // const data = await sql<JournalEntry>`SELECT * FROM journal_app`;
+    const data: { rows: JournalEntry[] } = await sql<JournalEntry>`SELECT * FROM journal_app`;
+    console.log('typeof data.rows fetch', typeof data.rows)
+    // console.log('data',data)
+    console.log('Data fetch completed');
+    return data.rows;
+  } catch (error) {
+    console.error('Database Error:', error.message);
+    throw new Error('Failed to fetch journal data.' + error.message);
+  }
+}
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   console.log('journalEntry TOP')
