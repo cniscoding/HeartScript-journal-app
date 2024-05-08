@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react';
 import { DatePicker } from './DatePicker';
 import { emojiTable } from '@/lib/emojiTable'
 import { TextClassificationOutput } from '@huggingface/inference';
+import { writeJournalEntry } from '@/app/api/journalEntries';
 
 
 
@@ -17,7 +18,7 @@ const JournalEntryForm: React.FC = () => {
   const [output, setOutput] = useState<TextClassificationOutput>([]);
   const defaultColor = 'red-500'
   const [color, setColor] = useState(defaultColor)
-  const [filteredResponseArray, setFilteredResponseArray] = useState<(TextClassificationOutput | undefined)[]>([]);
+  // const [filteredResponseArray, setFilteredResponseArray] = useState<(TextClassificationOutput | undefined)[]>([]);
 
 
 
@@ -46,20 +47,16 @@ const JournalEntryForm: React.FC = () => {
       setLoading(true);
       try {
         const response = await runInference(content);
-        setOutput(response)
-        console.log('runInference:', response[0].label);
-
-        console.log('API response:', response);
-
+        // setOutput(response)
+        // console.log('runInference:', response[0].label);
+        // console.log('API response:', response);
       } catch (error) {
         console.error('Error:', error);
-        // Handle error
       } finally {
         setLoading(false);
       }
     }
   }
-
 
   function handleColor() {
     if (output && output.length > 0) {
@@ -69,11 +66,11 @@ const JournalEntryForm: React.FC = () => {
     }
   }
 
-  useEffect(() => {
-    const filteredResponse = filterResponses([...output]);
-    setFilteredResponseArray(filteredResponse);
-    console.log('FilteredResponseArray', filteredResponseArray)
-}, [output]);
+//   useEffect(() => {
+//     const filteredResponse = filterResponses([...output]);
+//     setFilteredResponseArray(filteredResponse);
+//     console.log('FilteredResponseArray', filteredResponseArray)
+// }, [output]);
 
 function filterResponses(emotions: TextClassificationOutput[]) {
     const filteredEmotionArray: (TextClassificationOutput | undefined)[] = [];
@@ -92,11 +89,16 @@ function filterResponses(emotions: TextClassificationOutput[]) {
     return filteredEmotionArray;
 }
 
+const testSend = () => {
+  console.log('testSend clicked')
+  writeJournalEntry()
+}
   return (
     <>
       <div className={`bg-${color}`}>
         <div>test box</div>
         <div>{testing}</div>
+          <button className="bg-purple-500" onClick={testSend}>where am i </button>
         <div>
           {/* {output.map((label, index) => (
             <div key={index}>{label.label}</div>
@@ -105,7 +107,6 @@ function filterResponses(emotions: TextClassificationOutput[]) {
 
         </div>
       </div>
-
       <form onSubmit={handleSubmit} className="max-w-md mx-auto">
         <div>
           {content}
