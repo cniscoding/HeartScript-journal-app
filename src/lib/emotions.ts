@@ -44,5 +44,4 @@ function filterResponses(emotions) {
 
   }
   return filteredEmotionArray
-
 }

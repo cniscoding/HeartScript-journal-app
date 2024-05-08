@@ -4,7 +4,6 @@ import { runInference } from '@/lib/emotions';
 import React, { useEffect, useState } from 'react';
 import { DatePicker } from './DatePicker';
 import { emojiTable } from '@/lib/emojiTable'
-import { response } from 'express';
 import { TextClassificationOutput } from '@huggingface/inference';
 
 
@@ -18,8 +17,8 @@ const JournalEntryForm: React.FC = () => {
   const [output, setOutput] = useState<TextClassificationOutput>([]);
   const defaultColor = 'red-500'
   const [color, setColor] = useState(defaultColor)
-  const [filteredResponse, setFilteredResponse] = useState<any>()
-    ;
+  const [filteredResponseArray, setFilteredResponseArray] = useState<(TextClassificationOutput | undefined)[]>([]);
+
 
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -49,10 +48,9 @@ const JournalEntryForm: React.FC = () => {
         const response = await runInference(content);
         setOutput(response)
         console.log('runInference:', response[0].label);
-        // setFilteredResponse(response.filteredResponse)
-        // setResponse(response);
+
         console.log('API response:', response);
-        // console.log('filteredResponse',filteredResponse)
+
       } catch (error) {
         console.error('Error:', error);
         // Handle error
@@ -71,6 +69,28 @@ const JournalEntryForm: React.FC = () => {
     }
   }
 
+  useEffect(() => {
+    const filteredResponse = filterResponses([...output]);
+    setFilteredResponseArray(filteredResponse);
+    console.log('FilteredResponseArray', filteredResponseArray)
+}, [output]);
+
+function filterResponses(emotions: TextClassificationOutput[]) {
+    const filteredEmotionArray: (TextClassificationOutput | undefined)[] = [];
+    const firstEmotion = emotions.shift();
+    filteredEmotionArray.push(firstEmotion);
+    let score = firstEmotion?.score;
+    while (emotions.length > 0) {
+        const secondEmotion = emotions.shift();
+        if (secondEmotion && secondEmotion.score > score! * 0.5) {
+            filteredEmotionArray.push(secondEmotion);
+            score = secondEmotion.score;
+        } else {
+            break;
+        }
+    }
+    return filteredEmotionArray;
+}
 
   return (
     <>
@@ -78,9 +98,11 @@ const JournalEntryForm: React.FC = () => {
         <div>test box</div>
         <div>{testing}</div>
         <div>
-          {output.map((label, index) => (
+          {/* {output.map((label, index) => (
             <div key={index}>{label.label}</div>
-          ))}
+          ))} */}
+          {/* {filteredResponseArray} */}
+
         </div>
       </div>
 
