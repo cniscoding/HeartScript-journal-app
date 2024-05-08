@@ -14,11 +14,35 @@ export async function runInference(input: string) {
     if (!inferenceRes) {
       throw new Error('Failed to post data');
     }
-    const jsonData = await inferenceRes;
-    console.log('jsonData',jsonData)
-    return jsonData;
+    return inferenceRes
+    // const filteredResponse = filterResponses([...inferenceRes])
+    // console.log('inferenceRes', inferenceRes)
+    // return ({
+    //   inferenceRes,
+    //   filteredResponse
+    // });
+    // return inferenceRes
   } catch (error) {
     console.error('Error running inference:', error);
     throw new Error('Failed to run inference');
   }
+}
+
+function filterResponses(emotions) {
+  const filteredEmotionArray = []
+  const firstEmotion = emotions.shift();
+  filteredEmotionArray.push(firstEmotion);
+  let score = firstEmotion?.score;
+  while (emotions.length > 0) {
+    const secondEmotion = emotions.shift();
+    if (emotions?.score > score * 0.5) {
+      filteredEmotionArray.push(secondEmotion);
+      score = secondEmotion?.score;
+    } else {
+      break;
+    }
+
+  }
+  return filteredEmotionArray
+
 }

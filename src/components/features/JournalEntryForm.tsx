@@ -3,6 +3,9 @@
 import { runInference } from '@/lib/emotions';
 import React, { useEffect, useState } from 'react';
 import { DatePicker } from './DatePicker';
+import { emojiTable } from '@/lib/emojiTable'
+import { response } from 'express';
+import { TextClassificationOutput } from '@huggingface/inference';
 
 
 
@@ -11,6 +14,12 @@ const JournalEntryForm: React.FC = () => {
   const [content, setContent] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false)
+  const [testing, setTesting] = useState('hello')
+  const [output, setOutput] = useState<TextClassificationOutput>([]);
+  const defaultColor = 'red-500'
+  const [color, setColor] = useState(defaultColor)
+  const [filteredResponse, setFilteredResponse] = useState<any>()
+    ;
 
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -24,21 +33,26 @@ const JournalEntryForm: React.FC = () => {
     setContent('');
     setError('');
   };
-  
+
   useEffect(() => {
     const inputTimeout = setTimeout(() => {
       inputContent();
     }, 1000);
-  
+
     return () => clearTimeout(inputTimeout);
   }, [content]);
-  
+
   async function inputContent() {
     if (content) {
       setLoading(true);
       try {
         const response = await runInference(content);
+        setOutput(response)
+        console.log('runInference:', response[0].label);
+        // setFilteredResponse(response.filteredResponse)
+        // setResponse(response);
         console.log('API response:', response);
+        // console.log('filteredResponse',filteredResponse)
       } catch (error) {
         console.error('Error:', error);
         // Handle error
@@ -49,37 +63,58 @@ const JournalEntryForm: React.FC = () => {
   }
 
 
+  function handleColor() {
+    if (output && output.length > 0) {
+      const colorKey = (output as any[])[0].label;
+      const colorHex = (emojiTable as any)[colorKey].color
+      setColor(colorHex)
+    }
+  }
+
+
   return (
-    <form onSubmit={handleSubmit} className="max-w-md mx-auto">
-      <div>
-        {content}
-        <DatePicker />
+    <>
+      <div className={`bg-${color}`}>
+        <div>test box</div>
+        <div>{testing}</div>
+        <div>
+          {output.map((label, index) => (
+            <div key={index}>{label.label}</div>
+          ))}
+        </div>
       </div>
-      <div className="mb-4">
-        <label htmlFor="title" className="block text-gray-700">Title</label>
-        <input
-          type="text"
-          id="title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          className="w-full px-4 py-2 mt-2 text-gray-700 bg-gray-200 rounded-lg focus:outline-none focus:bg-white"
-          placeholder="Enter title"
-        />
-      </div>
-      <div className="mb-4">
-        <label htmlFor="content" className="block text-gray-700">Content</label>
-        <textarea
-          id="content"
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
-          className="w-full px-4 py-2 mt-2 text-gray-700 bg-gray-200 rounded-lg focus:outline-none focus:bg-white"
-          placeholder="Enter content"
-          rows={6}
-        ></textarea>
-      </div>
-      {error && <p className="text-red-500">{error}</p>}
-      <button type="submit" className="px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600">Submit</button>
-    </form>
+
+      <form onSubmit={handleSubmit} className="max-w-md mx-auto">
+        <div>
+          {content}
+          <DatePicker />
+        </div>
+        <div className="mb-4">
+          <label htmlFor="title" className="block text-gray-700">Title</label>
+          <input
+            type="text"
+            id="title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            className="w-full px-4 py-2 mt-2 text-gray-700 bg-gray-200 rounded-lg focus:outline-none focus:bg-white"
+            placeholder="Enter title"
+          />
+        </div>
+        <div className="mb-4">
+          <label htmlFor="content" className="block text-gray-700">Content</label>
+          <textarea
+            id="content"
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+            className="w-full px-4 py-2 mt-2 text-gray-700 bg-gray-200 rounded-lg focus:outline-none focus:bg-white"
+            placeholder="Enter content"
+            rows={6}
+          ></textarea>
+        </div>
+        {error && <p className="text-red-500">{error}</p>}
+        <button type="submit" className="px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600">Submit</button>
+      </form>
+    </>
   );
 };
 
