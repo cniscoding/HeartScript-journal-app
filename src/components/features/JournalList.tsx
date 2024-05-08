@@ -9,20 +9,11 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import { JournalEntry } from '@/app/types';
-import { useJournalEntries } from '@/lib/useJournalEntries';
 import { fetchJournalEntries } from '@/app/api/journalEntries'
 
-// const JournalList: React.FC = () => {
 const JournalList = async () => {
-
-  // const journalEntries = useJournalEntries();
   const journalEntries = await fetchJournalEntries()
-  // console.log('journalEntries',journalEntries)
-  // console.log('typeof data.rows journalEntries', typeof journalEntries)
-  // const sentimentsArray = (journalEntries);
-  // console.log('sentimentsArray',sentimentsArray[0].sentiments)
-  // console.log(sentimentsArray);
+
   return (
     <>
       {journalEntries.map(entry => (
