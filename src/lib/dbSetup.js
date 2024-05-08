@@ -42,8 +42,8 @@ async function seedEntries(client) {
       title VARCHAR(255) NOT NULL,
       content TEXT NOT NULL,
       date DATE NOT NULL,
-      sentiments VARCHAR(255)[] NOT NULL,
-      sentiment_score INTEGER NOT NULL CHECK (sentiment_score >= 0 AND sentiment_score <= 100),
+      sentiments TEXT NOT NULL,
+      sentiment_score NUMERIC NOT NULL CHECK (sentiment_score >= 0 AND sentiment_score <= 100),
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )
 `;
@@ -56,7 +56,6 @@ async function seedEntries(client) {
     VALUES 
       ('First Entry', 'This is my first journal entry.', '2024-05-06', '{"happy", "excited"}', 80),
       ('Second Entry', 'This is my second journal entry.', '2024-05-06', '{"sad", "disappointed"}', 30)
-    RETURNING *
     `;
     console.log(`Seeded ${insertedEntries.length} entries`);
 

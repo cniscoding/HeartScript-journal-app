@@ -3,7 +3,7 @@ export interface JournalEntry {
   title: string;
   content: string;
   date: Date;
-  sentiments: string[];
+  sentiments: string;
   sentiment_score: number;
   createdAt?: Date;
 }

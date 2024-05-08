@@ -6,6 +6,7 @@ import { DatePicker } from './DatePicker';
 import { emojiTable } from '@/lib/emojiTable'
 import { TextClassificationOutput } from '@huggingface/inference';
 import { writeJournalEntry } from '@/app/api/journalEntries';
+import { Calendar } from "@/components/ui/calendar"
 
 
 
@@ -19,7 +20,7 @@ const JournalEntryForm: React.FC = () => {
   const defaultColor = 'red-500'
   const [color, setColor] = useState(defaultColor)
   // const [filteredResponseArray, setFilteredResponseArray] = useState<(TextClassificationOutput | undefined)[]>([]);
-
+  const [date, setDate] = React.useState<Date | undefined>(new Date())
 
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -47,9 +48,23 @@ const JournalEntryForm: React.FC = () => {
       setLoading(true);
       try {
         const response = await runInference(content);
-        // setOutput(response)
-        // console.log('runInference:', response[0].label);
-        // console.log('API response:', response);
+        if (response) {
+          // result should be in the below format for writing.
+          // await sql`INSERT INTO journal_app (title, content, date, sentiments, sentiment_score)
+          // VALUES (${entry.title}, ${entry.content}, ${entry.date}, ${entry.sentiments}, ${entry.sentimentScore})`
+
+          const entry = {
+            title,
+            content,
+            date,
+            sentiments: response[0].label,
+            sentimentScore: response[0].score
+          };
+          writeJournalEntry(entry);
+          console.log('Data written to the database successfully.');
+        } else {
+          console.log('Inference process did not return valid data.');
+        }
       } catch (error) {
         console.error('Error:', error);
       } finally {
@@ -66,39 +81,39 @@ const JournalEntryForm: React.FC = () => {
     }
   }
 
-//   useEffect(() => {
-//     const filteredResponse = filterResponses([...output]);
-//     setFilteredResponseArray(filteredResponse);
-//     console.log('FilteredResponseArray', filteredResponseArray)
-// }, [output]);
+  //   useEffect(() => {
+  //     const filteredResponse = filterResponses([...output]);
+  //     setFilteredResponseArray(filteredResponse);
+  //     console.log('FilteredResponseArray', filteredResponseArray)
+  // }, [output]);
 
-function filterResponses(emotions: TextClassificationOutput[]) {
+  function filterResponses(emotions: TextClassificationOutput[]) {
     const filteredEmotionArray: (TextClassificationOutput | undefined)[] = [];
     const firstEmotion = emotions.shift();
     filteredEmotionArray.push(firstEmotion);
     let score = firstEmotion?.score;
     while (emotions.length > 0) {
-        const secondEmotion = emotions.shift();
-        if (secondEmotion && secondEmotion.score > score! * 0.5) {
-            filteredEmotionArray.push(secondEmotion);
-            score = secondEmotion.score;
-        } else {
-            break;
-        }
+      const secondEmotion = emotions.shift();
+      if (secondEmotion && secondEmotion.score > score! * 0.5) {
+        filteredEmotionArray.push(secondEmotion);
+        score = secondEmotion.score;
+      } else {
+        break;
+      }
     }
     return filteredEmotionArray;
-}
+  }
 
-const testSend = () => {
-  console.log('testSend clicked')
-  writeJournalEntry()
-}
+  const testSend = () => {
+    console.log('testSend clicked')
+    writeJournalEntry('hello')
+  }
   return (
     <>
       <div className={`bg-${color}`}>
         <div>test box</div>
         <div>{testing}</div>
-          <button className="bg-purple-500" onClick={testSend}>where am i </button>
+        <button className="bg-purple-500" onClick={testSend}>where am i </button>
         <div>
           {/* {output.map((label, index) => (
             <div key={index}>{label.label}</div>
@@ -110,7 +125,13 @@ const testSend = () => {
       <form onSubmit={handleSubmit} className="max-w-md mx-auto">
         <div>
           {content}
-          <DatePicker />
+          {/* <DatePicker /> */}
+          <Calendar
+            mode="single"
+            selected={date}
+            onSelect={setDate}
+            className="rounded-md border"
+          />
         </div>
         <div className="mb-4">
           <label htmlFor="title" className="block text-gray-700">Title</label>
