@@ -43,7 +43,7 @@ async function seedEntries(client) {
       content TEXT NOT NULL,
       date DATE NOT NULL,
       sentiments TEXT NOT NULL,
-      sentiment_score NUMERIC NOT NULL CHECK (sentiment_score >= 0 AND sentiment_score <= 100),
+      sentimentScore NUMERIC NOT NULL CHECK (sentiment_score >= 0 AND sentiment_score <= 100),
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )
 `;

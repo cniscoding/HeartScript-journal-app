@@ -15,7 +15,6 @@ const JournalEntryForm: React.FC = () => {
   const [content, setContent] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false)
-  const [testing, setTesting] = useState('hello')
   const [output, setOutput] = useState<TextClassificationOutput>([]);
   const defaultColor = 'red-500'
   const [color, setColor] = useState(defaultColor)
@@ -49,10 +48,6 @@ const JournalEntryForm: React.FC = () => {
       try {
         const response = await runInference(content);
         if (response) {
-          // result should be in the below format for writing.
-          // await sql`INSERT INTO journal_app (title, content, date, sentiments, sentiment_score)
-          // VALUES (${entry.title}, ${entry.content}, ${entry.date}, ${entry.sentiments}, ${entry.sentimentScore})`
-
           const entry = {
             title,
             content,
@@ -104,59 +99,46 @@ const JournalEntryForm: React.FC = () => {
     return filteredEmotionArray;
   }
 
-  const testSend = () => {
-    console.log('testSend clicked')
-    writeJournalEntry('hello')
-  }
   return (
     <>
-      <div className={`bg-${color}`}>
-        <div>test box</div>
-        <div>{testing}</div>
-        <button className="bg-purple-500" onClick={testSend}>where am i </button>
-        <div>
-          {/* {output.map((label, index) => (
-            <div key={index}>{label.label}</div>
-          ))} */}
-          {/* {filteredResponseArray} */}
-
-        </div>
-      </div>
-      <form onSubmit={handleSubmit} className="max-w-md mx-auto">
-        <div>
-          {content}
+      <form onSubmit={handleSubmit} className="p-4 border-2 rounded-xl flex flex-col md:flex-row w-full">
+        {/* calender */}
+        <div className="">
           {/* <DatePicker /> */}
           <Calendar
             mode="single"
             selected={date}
             onSelect={setDate}
-            className="rounded-md border"
+            className="border rounded-xl mr-4"
           />
         </div>
-        <div className="mb-4">
-          <label htmlFor="title" className="block text-gray-700">Title</label>
-          <input
-            type="text"
-            id="title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            className="w-full px-4 py-2 mt-2 text-gray-700 bg-gray-200 rounded-lg focus:outline-none focus:bg-white"
-            placeholder="Enter title"
-          />
+        {/* Content Area with Submit */}
+        <div className="w-full flex flex-col">
+          <div className="">
+            <label htmlFor="title" className="block text-gray-700">Title</label>
+            <input
+              type="text"
+              id="title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              className="w-full text-gray-700 bg-gray-200 rounded-lg focus:outline-none focus:bg-white"
+              placeholder="Enter title"
+            />
+          </div>
+          <div className="mb-4">
+            <label htmlFor="content" className="block text-gray-700">Content</label>
+            <textarea
+              id="content"
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+              className="w-full text-gray-700 bg-gray-200 rounded-lg focus:outline-none focus:bg-white"
+              placeholder="Enter content"
+              rows={6}
+            ></textarea>
+          </div>
+          {error && <p className="text-red-500">{error}</p>}
+          <button type="submit" className="text-white bg-blue-500 rounded-lg hover:bg-blue-600">Submit</button>
         </div>
-        <div className="mb-4">
-          <label htmlFor="content" className="block text-gray-700">Content</label>
-          <textarea
-            id="content"
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-            className="w-full px-4 py-2 mt-2 text-gray-700 bg-gray-200 rounded-lg focus:outline-none focus:bg-white"
-            placeholder="Enter content"
-            rows={6}
-          ></textarea>
-        </div>
-        {error && <p className="text-red-500">{error}</p>}
-        <button type="submit" className="px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600">Submit</button>
       </form>
     </>
   );

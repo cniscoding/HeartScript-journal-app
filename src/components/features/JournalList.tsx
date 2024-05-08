@@ -35,7 +35,7 @@ const JournalList = async () => {
                 {sentiment}
               </span>
             ))} */}
-            {entry.sentiment_score}
+            {entry.sentimentScore}
           </CardFooter>
         </Card>
       ))}

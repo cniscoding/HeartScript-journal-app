@@ -22,20 +22,13 @@ export async function fetchJournalEntries() {
 }
 
 // export async function writeJournalEntry(entry: JournalEntry) {
-export async function writeJournalEntry(entry : any) {
-  console.log('did this hit? 1 ')
-  console.log(entry)
+export async function writeJournalEntry(entry : JournalEntry) {
   const client = await sql.connect();
   try {
     await pool.sql`
       INSERT INTO journal_app (title, content, date, sentiments, sentiment_score)
       VALUES (${entry.title}, ${entry.content}, ${entry.date}, ${entry.sentiments}, ${entry.sentimentScore})
       `;
-
-    //  test
-    //   await pool.sql`INSERT INTO journal_app (title, content, date, sentiments, sentiment_score)
-    // VALUES ('my day', 'I felt great today + 2', '2024-05-08', ARRAY['happy', 'joy'], '85')`
-    // ;
     console.log('injected successfully from journalEntries API')
     
     return { success: true };

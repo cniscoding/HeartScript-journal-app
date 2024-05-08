@@ -4,6 +4,6 @@ export interface JournalEntry {
   content: string;
   date: Date;
   sentiments: string;
-  sentiment_score: number;
+  sentimentScore: number;
   createdAt?: Date;
 }
