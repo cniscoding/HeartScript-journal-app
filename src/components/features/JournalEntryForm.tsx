@@ -1,7 +1,9 @@
 'use client'
 
+import { runInference } from '@/lib/emotions';
 import React, { useEffect, useState } from 'react';
 import { DatePicker } from './DatePicker';
+
 
 
 const JournalEntryForm: React.FC = () => {
@@ -10,33 +12,39 @@ const JournalEntryForm: React.FC = () => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false)
 
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!title || !content) {
       setError('Title and content are required');
       return;
     }
-    // You can perform submission logic here
     console.log('Submitting journal entry:', { title, content });
-    // Clear form fields after submission
     setTitle('');
     setContent('');
     setError('');
   };
-
+  
   useEffect(() => {
     const inputTimeout = setTimeout(() => {
       inputContent();
     }, 1000);
-
-    return () => clearTimeout(inputTimeout)
-  }, [content])
-
-  function inputContent() {
+  
+    return () => clearTimeout(inputTimeout);
+  }, [content]);
+  
+  async function inputContent() {
     if (content) {
-      setLoading(true)
-      // api call here
-      setLoading(false)
+      setLoading(true);
+      try {
+        const response = await runInference(content);
+        console.log('API response:', response);
+      } catch (error) {
+        console.error('Error:', error);
+        // Handle error
+      } finally {
+        setLoading(false);
+      }
     }
   }
 
