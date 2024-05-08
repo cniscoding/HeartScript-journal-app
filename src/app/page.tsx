@@ -12,7 +12,7 @@ const Home: React.FC = () => {
   // ];
 
   return (
-    <main className="flex min-h-screen flex-col p-24">
+    <main className="flex min-h-screen min-w-screen flex-col p-24">
       <div>
         <div>
           <h2>Journal Entry Form</h2>

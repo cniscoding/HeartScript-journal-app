@@ -1,36 +1,35 @@
 interface LabelInfo {
-  label: string;
-  color: string;
+  color: string; // Tailwind CSS color name
   emoji: string;
 }
 
-export const emojiTable: LabelInfo[] = [
-  { label: 'neutral', color: '#999999', emoji: '😐' },
-  { label: 'approval', color: '#00cc66', emoji: '👍' },
-  { label: 'annoyance', color: '#ff6666', emoji: '😠' },
-  { label: 'realization', color: '#ffff66', emoji: '💡' },
-  { label: 'anger', color: '#ff0000', emoji: '😡' },
-  { label: 'admiration', color: '#6699ff', emoji: '😍' },
-  { label: 'disappointment', color: '#cc33ff', emoji: '😞' },
-  { label: 'disapproval', color: '#ff9933', emoji: '👎' },
-  { label: 'sadness', color: '#6666ff', emoji: '😢' },
-  { label: 'excitement', color: '#ff9900', emoji: '😃' },
-  { label: 'disgust', color: '#33ccff', emoji: '🤢' },
-  { label: 'joy', color: '#ffcc00', emoji: '😄' },
-  { label: 'fear', color: '#6600cc', emoji: '😨' },
-  { label: 'confusion', color: '#9966ff', emoji: '😕' },
-  { label: 'amusement', color: '#ff33cc', emoji: '😄' },
-  { label: 'optimism', color: '#cc00cc', emoji: '😊' },
-  { label: 'curiosity', color: '#cc0066', emoji: '🤔' },
-  { label: 'desire', color: '#ff6699', emoji: '😍' },
-  { label: 'caring', color: '#009933', emoji: '😊' },
-  { label: 'love', color: '#ff33cc', emoji: '❤️' },
-  { label: 'surprise', color: '#ff3300', emoji: '😮' },
-  { label: 'gratitude', color: '#00cc99', emoji: '🙏' },
-  { label: 'embarrassment', color: '#cc6699', emoji: '😳' },
-  { label: 'grief', color: '#666633', emoji: '😢' },
-  { label: 'nervousness', color: '#cccccc', emoji: '😬' },
-  { label: 'pride', color: '#ff6699', emoji: '🦁' },
-  { label: 'relief', color: '#99ff99', emoji: '😌' },
-  { label: 'remorse', color: '#cc6699', emoji: '😔' }
-];
+export const emojiTable: Record<string, LabelInfo> = {
+  'neutral': { color: 'gray-500', emoji: '😐' },
+  'approval': { color: 'green-500', emoji: '👍' },
+  'annoyance': { color: 'red-500', emoji: '😠' },
+  'realization': { color: 'yellow-500', emoji: '💡' },
+  'anger': { color: 'red-700', emoji: '😡' },
+  'admiration': { color: 'blue-500', emoji: '😍' },
+  'disappointment': { color: 'purple-500', emoji: '😞' },
+  'disapproval': { color: 'orange-500', emoji: '👎' },
+  'sadness': { color: 'indigo-500', emoji: '😢' },
+  'excitement': { color: 'orange-500', emoji: '😃' },
+  'disgust': { color: 'cyan-500', emoji: '🤢' },
+  'joy': { color: 'yellow-500', emoji: '😄' },
+  'fear': { color: 'indigo-700', emoji: '😨' },
+  'confusion': { color: 'indigo-500', emoji: '😕' },
+  'amusement': { color: 'pink-500', emoji: '😄' },
+  'optimism': { color: 'purple-500', emoji: '😊' },
+  'curiosity': { color: 'pink-500', emoji: '🤔' },
+  'desire': { color: 'pink-500', emoji: '😍' },
+  'caring': { color: 'green-500', emoji: '😊' },
+  'love': { color: 'pink-500', emoji: '❤️' },
+  'surprise': { color: 'red-500', emoji: '😮' },
+  'gratitude': { color: 'green-500', emoji: '🙏' },
+  'embarrassment': { color: 'pink-500', emoji: '😳' },
+  'grief': { color: 'yellow-500', emoji: '😢' },
+  'nervousness': { color: 'gray-500', emoji: '😬' },
+  'pride': { color: 'red-500', emoji: '🦁' },
+  'relief': { color: 'green-500', emoji: '😌' },
+  'remorse': { color: 'pink-500', emoji: '😔' }
+};

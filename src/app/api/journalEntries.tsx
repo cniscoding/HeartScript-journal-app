@@ -13,7 +13,7 @@ export async function fetchJournalEntries() {
   try {
     const data: { rows: JournalEntry[] } = await sql<JournalEntry>`
     SELECT * FROM journal_app
-    ORDER BY date DESC
+    ORDER BY date DESC, created_at DESC
     `;
     return data.rows;
   } catch (error) {

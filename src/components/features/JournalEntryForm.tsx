@@ -24,8 +24,8 @@ const JournalEntryForm: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!title || !content) {
-      setError('Title and content are required');
+    if (!content) {
+      setError('Content is required');
       return;
     }
     console.log('Submitting journal entry:', { title, content });
@@ -101,43 +101,44 @@ const JournalEntryForm: React.FC = () => {
 
   return (
     <>
-      <form onSubmit={handleSubmit} className="p-4 border-2 rounded-xl flex flex-col md:flex-row w-full">
+      <form onSubmit={handleSubmit} className="p-1 md:p-2 border-2 rounded-xl flex flex-col md:flex-row w-full h-full">
         {/* calender */}
-        <div className="">
+        <div className="flex flex-col  items-center">
           {/* <DatePicker /> */}
           <Calendar
             mode="single"
             selected={date}
             onSelect={setDate}
-            className="border rounded-xl mr-4"
+            className="border rounded-xl"
           />
         </div>
         {/* Content Area with Submit */}
-        <div className="w-full flex flex-col">
-          <div className="">
+        <div className="flex flex-col w-full p-1 md:ml-2">
+          {/* Title but removed */}
+          {/* <div className="">
             <label htmlFor="title" className="block text-gray-700">Title</label>
             <input
               type="text"
               id="title"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              className="w-full text-gray-700 bg-gray-200 rounded-lg focus:outline-none focus:bg-white"
+              className="p-1 w-full text-gray-700 bg-gray-200 rounded-lg focus:outline-gray-300 focus:bg-gray-100"
               placeholder="Enter title"
             />
-          </div>
-          <div className="mb-4">
-            <label htmlFor="content" className="block text-gray-700">Content</label>
+          </div> */}
+          <div className="flex-1">
+            <label htmlFor="content" className="text-center font-semibold pl-1 block text-gray-700">How was your day?</label>
             <textarea
               id="content"
               value={content}
               onChange={(e) => setContent(e.target.value)}
-              className="w-full text-gray-700 bg-gray-200 rounded-lg focus:outline-none focus:bg-white"
-              placeholder="Enter content"
-              rows={6}
+              className="pt-1 pl-2 w-full text-gray-700 bg-gray-200 rounded-lg focus:outline-gray-300 focus:bg-gray-100 resize-none"
+              placeholder="I had a good day . . ."
+              rows={9}
             ></textarea>
           </div>
           {error && <p className="text-red-500">{error}</p>}
-          <button type="submit" className="text-white bg-blue-500 rounded-lg hover:bg-blue-600">Submit</button>
+          <button type="submit" className="p-1 text-white bg-blue-500 rounded-lg hover:bg-blue-600">Submit</button>
         </div>
       </form>
     </>

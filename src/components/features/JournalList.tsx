@@ -5,41 +5,43 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
 import { fetchJournalEntries } from '@/app/api/journalEntries'
+import { emojiTable } from '@/lib/emojiTable';
 
 const JournalList = async () => {
   const journalEntries = await fetchJournalEntries()
 
+  const formatDate = (dateString:Date) => {
+    const options = { month: 'long', day: 'numeric', year: 'numeric' };
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', options);
+  };
   return (
-    <>
+    <div className="flex flex-col">
       {journalEntries.map(entry => (
-        <Card>
+        <Card className="my-2 flex-col items-center justify-between text-center">
           <CardHeader>
-            <CardTitle>{entry.title}</CardTitle>
-            <CardDescription>{entry.date.toLocaleDateString()}</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <p>{entry.content}</p>
-          </CardContent>
-          <CardFooter>
-          <span className="cursor-pointer bg-gray-100 text-gray-800 text-lg px-4 py-1 rounded-full border border-gray-400">
-                {entry.sentiments}
-       
-                </span>
-            {/* {entry.sentiments?.map(sentiment => (
-              <span key={sentiment} className="cursor-pointer bg-gray-100 text-gray-800 text-lg px-4 py-1 rounded-full border border-gray-400">
-                {sentiment}
+            {/* <CardTitle>{entry.title}</CardTitle> */}
+            {/* <CardTitle>{entry.date.toLocaleDateString()}</CardTitle> */}
+            <CardTitle>{formatDate(entry.date)}</CardTitle>
+            <CardDescription className="flex flex-col">
+              {/* {entry.date.toLocaleDateString()} */}
+              <span className="">
+                {entry.sentiments} {emojiTable[entry.sentiments]?.emoji}
               </span>
-            ))} */}
-            {entry.sentimentScore}
-          </CardFooter>
+            </CardDescription>
+          </CardHeader>
+          <div>
+            <CardContent>
+              <p>{entry.content}</p>
+            </CardContent>
+          </div>
         </Card>
       ))}
-    </>
+    </div>
   );
 };
 
