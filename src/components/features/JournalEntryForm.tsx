@@ -22,47 +22,55 @@ const JournalEntryForm: React.FC = () => {
   const [date, setDate] = React.useState<Date | undefined>(new Date())
 
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async(e: React.FormEvent) => {
     e.preventDefault();
     if (!content) {
       setError('Content is required');
       return;
     }
-    console.log('Submitting journal entry:', { title, content });
-    setTitle('');
-    setContent('');
-    setError('');
+    setLoading(true);
+    try {
+      console.log('Submitting journal entry:', { title, content });
+      await inputContent();
+      setTitle('');
+      setContent('');
+      setError('');
+
+    } catch (error) {
+      console.error('Error submitting journal entry:', error);
+      setError('Failed to submit journal entry. Please try again.')
+    } finally {
+      setLoading(false)
+    }
   };
 
-  useEffect(() => {
-    const inputTimeout = setTimeout(() => {
-      inputContent();
-    }, 1000);
+  // useEffect(() => {
+  //   const inputTimeout = setTimeout(() => {
+  //     inputContent();
+  //   }, 1000);
 
-    return () => clearTimeout(inputTimeout);
-  }, [content]);
+  //   return () => clearTimeout(inputTimeout);
+  // }, [content]);
 
   async function inputContent() {
     if (content) {
-      setLoading(true);
       try {
         const response = await runInference(content);
         if (response) {
           const entry = {
             content,
-            date,
+            date : date!,
             sentiments: response[0].label,
             sentimentScore: response[0].score
           };
-          writeJournalEntry(entry);
+          await writeJournalEntry(entry);
           console.log('Data written to the database successfully.');
         } else {
           console.log('Inference process did not return valid data.');
         }
       } catch (error) {
         console.error('Error:', error);
-      } finally {
-        setLoading(false);
+        throw error;
       }
     }
   }
@@ -104,7 +112,7 @@ const JournalEntryForm: React.FC = () => {
         {/* calender */}
         <div className="flex flex-col  items-center">
           <div className="md:hidden">
-          <DatePicker />
+            <DatePicker />
           </div>
           <Calendar
             mode="single"

@@ -1,15 +1,13 @@
-import React from 'react';
+
+
+import React, { useState } from 'react';
 import JournalList from '@/components/features/JournalList';
 import JournalEntryForm from '@/components/features/JournalEntryForm';
+import JournalSortControls from '@/components/features/sortJournalEntry';
 
 const Home: React.FC = () => {
-
-  // pull from DB   
-  // const journalEntries = [
-  //   { id: 1, title: 'First Entry', date: 'may 6, 2024', content: 'This is my first journal entry.', sentiments: ['happy', 'excited'], sentiment_score: 80 },
-  //   { id: 2, title: 'Second Entry', date: 'may 6, 2024', content: 'This is my second journal entry.', sentiments: ["sad", "disappointed"], sentiment_score: 30 },
-  //   // Add more entries as needed
-  // ];
+  // const [sortBy, setSortBy] = useState<string>('date');
+  // const [sortOrder, setSortOrder] = useState<string>('DESC');
 
   return (
     <main className="flex min-h-screen min-w-screen flex-col p-24">
@@ -19,7 +17,11 @@ const Home: React.FC = () => {
           <JournalEntryForm />
         </div>
         <h2>Journal Entries</h2>
-        {/* <JournalList entries={journalEntries} /> */}
+        {/* <JournalSortControls
+          onSortByDate={() => setSortBy('date')}
+          onSortByCreationDate={() => setSortBy('created_at')}
+          onSortAscending={() => setSortOrder('ASC')}
+          onSortDescending={() => setSortOrder('DESC')} /> */}
         <JournalList />
       </div>
     </main>

@@ -1,28 +1,32 @@
 'use server'
-import { sql, postgresConnectionString, createPool } from '@vercel/postgres';
-import { JournalEntry } from '@/app/types';
 
-const pooledConnectionString = postgresConnectionString('pool');
-const directConnectionString = postgresConnectionString('direct');
+import { sql, createPool } from '@vercel/postgres';
+import { JournalEntry } from '@/app/types';
 
 const pool = createPool({
   connectionString: process.env.POSTGRES_URL,
 });
 
-export async function fetchJournalEntries() {
+let failedAttempts = 0;
+// ORDER BY ${sortBy} ${sortOrder}, created_at DESC
+export async function fetchJournalEntries(sortBy: string, sortOrder: string) {
   try {
     const data: { rows: JournalEntry[] } = await sql<JournalEntry>`
     SELECT * FROM journal_app
     ORDER BY date DESC, created_at DESC
     `;
+    failedAttempts = 0;
     return data.rows;
   } catch (error) {
+    failedAttempts++
+    if (failedAttempts > 1) {
+      throw new Error('Failed to fetch journal data. Retry limit exceeded.');
+    }
     throw new Error('Failed to fetch journal data.' + error.message);
   }
 }
 
-// export async function writeJournalEntry(entry: JournalEntry) {
-export async function writeJournalEntry(entry : JournalEntry) {
+export async function writeJournalEntry(entry: JournalEntry) {
   const client = await sql.connect();
   try {
     await pool.sql`
@@ -31,7 +35,7 @@ export async function writeJournalEntry(entry : JournalEntry) {
       RETURNING *
       `;
     console.log('injected successfully from journalEntries API')
-    
+
     return { success: true };
   } catch (error) {
     throw new Error('Failed to write journal entry.' + error.message);

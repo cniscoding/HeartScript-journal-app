@@ -1,4 +1,4 @@
-// 'use client'
+'use server'
 
 import React from 'react';
 import {
@@ -21,8 +21,8 @@ const JournalList = async () => {
   };
   return (
     <div className="flex flex-col">
-      {journalEntries.map(entry => (
-        <Card className="my-2 flex-col items-center justify-between text-center">
+      {journalEntries.map((entry, index) => (
+        <Card key={index} className="my-2 flex-col items-center justify-between text-center">
           <CardHeader>
             {/* <CardTitle>{entry.title}</CardTitle> */}
             {/* <CardTitle>{entry.date.toLocaleDateString()}</CardTitle> */}
@@ -44,6 +44,5 @@ const JournalList = async () => {
     </div>
   );
 };
-
 
 export default JournalList;
