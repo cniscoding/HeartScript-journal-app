@@ -1,5 +1,6 @@
 'use client'
 import { deleteJournalEntry } from '@/app/api/journalEntries';
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
 import React, { useState, useEffect } from 'react';
 import {
@@ -78,8 +79,16 @@ const JournalList = () => {
           <CardHeader>
             <div>
               <CardTitle className="flex justify-between items-center">
-                <div className="flex">
-                  <span className="hidden md:flex">Journal Entry for&nbsp;</span> {formatDate(entry.date)}
+                <div className="flex justify-center items-center">
+                  {/* <span className="hidden md:flex">Journal Entry for&nbsp;</span>  */}
+
+                  <div className='rounded-full text-4xl pr-2'>
+
+                    {emojiTable[entry.sentiments]?.emoji}
+                  </div>
+                    
+
+                  {formatDate(entry.date)}
                 </div>
                 <button onClick={() => handleDeleteEntry(entry.id)} disabled={loading}>
                   {loading ? 'Deleting...' : 'Delete'}
@@ -89,7 +98,8 @@ const JournalList = () => {
               </CardTitle>
               <CardDescription className="flex flex-col">
                 <span className="">
-                  {entry.sentiments} {emojiTable[entry.sentiments]?.emoji}
+                  {entry.sentiments} 
+                  {/* {emojiTable[entry.sentiments]?.emoji} */}
                 </span>
               </CardDescription>
             </div>

@@ -101,7 +101,7 @@ export async function seedEntries() {
       content TEXT NOT NULL,
       date DATE NOT NULL,
       sentiments TEXT NOT NULL,
-      sentimentScore NUMERIC NOT NULL CHECK (sentimentScore >= 0 AND sentimentScore <= 100),
+      sentimentScore NUMERIC,
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )
 `;
@@ -110,9 +110,10 @@ export async function seedEntries() {
     await pool.sql`
     INSERT INTO journal_app (content, date, sentiments, sentimentScore)
     VALUES 
-      ('This is my first journal entry.', '2024-05-06', 'Happy', 80),
-      ('This is my second journal entry.', '2024-05-06', 'Sad', 30)
-    `;
+      ('Today sparked a wildfire of curiosity within me as I stumbled upon an ancient tome tucked away in the dusty corner of the library, its faded pages whispering secrets of a forgotten era, igniting a hunger for knowledge I never knew I possessed', '2024-05-06', 'curiosity', 80),
+      ('Today, I found myself in an unexpected moment of embarrassment when I tripped over my own shoelaces in the crowded hallway, drawing the attention of everyone around me.', '2024-05-06', 'embarrassment', 30),
+      ('Anxiety fluttered in my chest as I awaited feedback on my latest project, yearning for the nod of approval that would validate the countless hours of dedication poured into its creation.', '2024-05-06', 'approval', 30)
+      `;
     console.log(`Seeded entries`);
 
   } catch (error) {
