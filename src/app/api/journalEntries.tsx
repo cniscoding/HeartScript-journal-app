@@ -112,7 +112,7 @@ export async function seedEntries() {
     VALUES 
       ('Today sparked a wildfire of curiosity within me as I stumbled upon an ancient tome tucked away in the dusty corner of the library, its faded pages whispering secrets of a forgotten era, igniting a hunger for knowledge I never knew I possessed', '2024-05-06', 'curiosity', 80),
       ('Today, I found myself in an unexpected moment of embarrassment when I tripped over my own shoelaces in the crowded hallway, drawing the attention of everyone around me.', '2024-05-06', 'embarrassment', 30),
-      ('Anxiety fluttered in my chest as I awaited feedback on my latest project, yearning for the nod of approval that would validate the countless hours of dedication poured into its creation.', '2024-05-06', 'approval', 30)
+      ('Anxiety fluttered in my chest as I awaited feedback on my latest project, yearning for the nod of approval that would validate the countless hours of dedication poured into its creation.', '2024-05-06', 'nervousness', 30)
       `;
     console.log(`Seeded entries`);
 

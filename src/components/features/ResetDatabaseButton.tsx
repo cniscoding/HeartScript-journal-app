@@ -14,7 +14,7 @@ function ResetDatabaseButton() {
   };
 
   return (
-    <Button onClick={handleResetDatabase} className="mx-1">Reset Database</Button>
+    <Button onClick={handleResetDatabase} className="mx-1">Reset Submissions</Button>
   );
 }
 

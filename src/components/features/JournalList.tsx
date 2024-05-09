@@ -81,14 +81,13 @@ const JournalList = () => {
               <CardTitle className="flex justify-between items-center">
                 <div className="flex justify-center items-center">
                   {/* <span className="hidden md:flex">Journal Entry for&nbsp;</span>  */}
-
                   <div className='rounded-full text-4xl pr-2'>
 
                     {emojiTable[entry.sentiments]?.emoji}
                   </div>
-                    
+                  {entry.sentiments.charAt(0).toUpperCase() + entry.sentiments.slice(1)}
 
-                  {formatDate(entry.date)}
+                  {/* {formatDate(entry.date)} */}
                 </div>
                 <button onClick={() => handleDeleteEntry(entry.id)} disabled={loading}>
                   {loading ? 'Deleting...' : 'Delete'}
@@ -98,7 +97,8 @@ const JournalList = () => {
               </CardTitle>
               <CardDescription className="flex flex-col">
                 <span className="">
-                  {entry.sentiments} 
+                  {formatDate(entry.date)}
+                  {/* {entry.sentiments}  */}
                   {/* {emojiTable[entry.sentiments]?.emoji} */}
                 </span>
               </CardDescription>

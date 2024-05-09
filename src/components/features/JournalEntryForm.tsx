@@ -1,12 +1,13 @@
 'use client'
 
 import { runInference } from '@/lib/emotions';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { DatePicker } from './DatePicker';
 import { emojiTable } from '@/lib/emojiTable'
 import { TextClassificationOutput } from '@huggingface/inference';
 import { writeJournalEntry } from '@/app/api/journalEntries';
 import { Calendar } from "@/components/ui/calendar"
+import { Progress } from "@/components/ui/progress"
 
 const JournalEntryForm: React.FC = () => {
   const [title, setTitle] = useState('');
@@ -17,15 +18,17 @@ const JournalEntryForm: React.FC = () => {
   const defaultColor = 'red-500'
   const [color, setColor] = useState(defaultColor)
   const [date, setDate] = React.useState<Date | undefined>(new Date())
+  const [buttonText, setButtonText] = useState('Submit');
 
 
-  const handleSubmit = async(e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!content) {
-      setError('Content is required');
+      setError('Please write about your day');
       return;
     }
     setLoading(true);
+    setButtonText("Recording and Analyzing your day");
     try {
       console.log('Submitting journal entry:', { title, content });
       await inputContent();
@@ -38,6 +41,7 @@ const JournalEntryForm: React.FC = () => {
       setError('Failed to submit journal entry. Please try again.')
     } finally {
       setLoading(false)
+      setButtonText('Submit');
     }
   };
 
@@ -48,7 +52,7 @@ const JournalEntryForm: React.FC = () => {
         if (response) {
           const entry = {
             content,
-            date : date!,
+            date: date!,
             sentiments: response[0].label,
             sentimentScore: response[0].score
           };
@@ -125,7 +129,9 @@ const JournalEntryForm: React.FC = () => {
             ></textarea>
           </div>
           {error && <p className="text-red-500">{error}</p>}
-          <button type="submit" className="p-1 text-white bg-blue-500 rounded-lg hover:bg-blue-600">Submit</button>
+          <button type="submit" className={`p-1 text-white rounded-lg ${loading ? 'bg-gray-500' : 'bg-blue-500 hover:bg-blue-600'}`}>
+            {buttonText}
+          </button>
         </div>
       </form>
     </>

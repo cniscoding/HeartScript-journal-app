@@ -26,10 +26,10 @@ const Home: React.FC = () => {
         </div>
         {/* <SeedEntriesButton /> */}
         <div>
-          <h2>Journal Entry Form</h2>
+          <h2 className="text-2xl font-bold text-gray-800 my-4">Journal Entry Form</h2>
           <JournalEntryForm />
         </div>
-        <h2>Journal Entries</h2>
+        <h2 className="text-2xl font-bold text-gray-800 my-4">Journal Entries</h2>
         {/* <JournalSortControls
           onSortByDate={() => setSortBy('date')}
           onSortByCreationDate={() => setSortBy('created_at')}

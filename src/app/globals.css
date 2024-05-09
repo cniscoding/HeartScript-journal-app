@@ -2,9 +2,6 @@
   @tailwind components;
   @tailwind utilities;
 
-
-
-
   @layer base {
     :root {
       --background: 0 0% 100%;
@@ -27,6 +24,8 @@
       --input: 0 0% 89.8%;
       --ring: 0 0% 3.9%;
       --radius: 0.5rem;
+      --font-size-xs: 0.8rem; 
+      --font-size-l: 1.05rem; 
     }
   
     .dark {
@@ -49,6 +48,17 @@
       --border: 0 0% 14.9%;
       --input: 0 0% 14.9%;
       --ring: 0 0% 83.1%;
+    }
+
+    @media (min-width: 640px) {
+      :root {
+        font-size: var(--font-size-l);
+      }
+    }
+    @media (max-width: 639px) {
+      :root {
+        font-size: var(--font-size-xs);
+      }
     }
   }
   
