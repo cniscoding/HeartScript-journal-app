@@ -49,7 +49,6 @@ const JournalEntryForm: React.FC = () => {
         const response = await runInference(content);
         if (response) {
           const entry = {
-            title,
             content,
             date,
             sentiments: response[0].label,
@@ -104,12 +103,14 @@ const JournalEntryForm: React.FC = () => {
       <form onSubmit={handleSubmit} className="p-1 md:p-2 border-2 rounded-xl flex flex-col md:flex-row w-full h-full">
         {/* calender */}
         <div className="flex flex-col  items-center">
-          {/* <DatePicker /> */}
+          <div className="md:hidden">
+          <DatePicker />
+          </div>
           <Calendar
             mode="single"
             selected={date}
             onSelect={setDate}
-            className="border rounded-xl"
+            className="border rounded-xl hidden md:block"
           />
         </div>
         {/* Content Area with Submit */}

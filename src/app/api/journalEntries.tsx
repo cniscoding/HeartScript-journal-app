@@ -26,8 +26,9 @@ export async function writeJournalEntry(entry : JournalEntry) {
   const client = await sql.connect();
   try {
     await pool.sql`
-      INSERT INTO journal_app (title, content, date, sentiments, sentiment_score)
-      VALUES (${entry.title}, ${entry.content}, ${entry.date}, ${entry.sentiments}, ${entry.sentimentScore})
+      INSERT INTO journal_app (content, date, sentiments, sentimentScore)
+      VALUES (${entry.content}, ${entry.date}, ${entry.sentiments}, ${entry.sentimentScore})
+      RETURNING *
       `;
     console.log('injected successfully from journalEntries API')
     

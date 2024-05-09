@@ -39,11 +39,10 @@ async function seedEntries(client) {
     const createTable = await client.sql`
     CREATE TABLE IF NOT EXISTS journal_app (
       id SERIAL PRIMARY KEY,
-      title VARCHAR(255) NOT NULL,
       content TEXT NOT NULL,
       date DATE NOT NULL,
       sentiments TEXT NOT NULL,
-      sentimentScore NUMERIC NOT NULL CHECK (sentiment_score >= 0 AND sentiment_score <= 100),
+      sentimentScore NUMERIC NOT NULL CHECK (sentimentScore >= 0 AND sentimentScore <= 100),
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )
 `;
@@ -52,10 +51,10 @@ async function seedEntries(client) {
 
     // Insert data into the "journal_app" table
     const insertedEntries = await client.sql`
-    INSERT INTO journal_app (title, content, date, sentiments, sentiment_score)
+    INSERT INTO journal_app (content, date, sentiments, sentimentScore)
     VALUES 
-      ('First Entry', 'This is my first journal entry.', '2024-05-06', '{"happy", "excited"}', 80),
-      ('Second Entry', 'This is my second journal entry.', '2024-05-06', '{"sad", "disappointed"}', 30)
+      ('This is my first journal entry.', '2024-05-06', '{"happy", "excited"}', 80),
+      ('This is my second journal entry.', '2024-05-06', '{"sad", "disappointed"}', 30)
     `;
     console.log(`Seeded ${insertedEntries.length} entries`);
 
