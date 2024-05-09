@@ -16,7 +16,14 @@ export async function fetchJournalEntries(sortBy: string, sortOrder: string) {
     ORDER BY date DESC, created_at DESC
     `;
     failedAttempts = 0;
-    return data.rows;
+    // return data.rows;
+    return {
+      statusCode: 200,
+      headers: {
+        'Cache-Control': 'no-cache, no-store, must-revalidate'
+      },
+      body: data.rows
+    }
   } catch (error) {
     failedAttempts++
     if (failedAttempts > 1) {
@@ -27,7 +34,6 @@ export async function fetchJournalEntries(sortBy: string, sortOrder: string) {
 }
 
 export async function writeJournalEntry(entry: JournalEntry) {
-  const client = await sql.connect();
   try {
     await pool.sql`
       INSERT INTO journal_app (content, date, sentiments, sentimentScore)
@@ -36,7 +42,14 @@ export async function writeJournalEntry(entry: JournalEntry) {
       `;
     console.log('injected successfully from journalEntries API')
 
-    return { success: true };
+    // return { success: true };
+    return {
+      statusCode: 200,
+      headers: {
+        'Cache-Control': 'no-cache, no-store, must-revalidate'
+      },
+      body: JSON.stringify({ success: true })
+    }
   } catch (error) {
     throw new Error('Failed to write journal entry.' + error.message);
   }

@@ -8,8 +8,6 @@ import { TextClassificationOutput } from '@huggingface/inference';
 import { writeJournalEntry } from '@/app/api/journalEntries';
 import { Calendar } from "@/components/ui/calendar"
 
-
-
 const JournalEntryForm: React.FC = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
@@ -18,7 +16,6 @@ const JournalEntryForm: React.FC = () => {
   const [output, setOutput] = useState<TextClassificationOutput>([]);
   const defaultColor = 'red-500'
   const [color, setColor] = useState(defaultColor)
-  // const [filteredResponseArray, setFilteredResponseArray] = useState<(TextClassificationOutput | undefined)[]>([]);
   const [date, setDate] = React.useState<Date | undefined>(new Date())
 
 
@@ -44,14 +41,6 @@ const JournalEntryForm: React.FC = () => {
     }
   };
 
-  // useEffect(() => {
-  //   const inputTimeout = setTimeout(() => {
-  //     inputContent();
-  //   }, 1000);
-
-  //   return () => clearTimeout(inputTimeout);
-  // }, [content]);
-
   async function inputContent() {
     if (content) {
       try {
@@ -64,6 +53,7 @@ const JournalEntryForm: React.FC = () => {
             sentimentScore: response[0].score
           };
           await writeJournalEntry(entry);
+          // window.location.reload();
           console.log('Data written to the database successfully.');
         } else {
           console.log('Inference process did not return valid data.');
@@ -123,18 +113,6 @@ const JournalEntryForm: React.FC = () => {
         </div>
         {/* Content Area with Submit */}
         <div className="flex flex-col w-full p-1 md:ml-2">
-          {/* Title but removed */}
-          {/* <div className="">
-            <label htmlFor="title" className="block text-gray-700">Title</label>
-            <input
-              type="text"
-              id="title"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              className="p-1 w-full text-gray-700 bg-gray-200 rounded-lg focus:outline-gray-300 focus:bg-gray-100"
-              placeholder="Enter title"
-            />
-          </div> */}
           <div className="flex-1">
             <label htmlFor="content" className="text-center font-semibold pl-1 block text-gray-700">How was your day?</label>
             <textarea

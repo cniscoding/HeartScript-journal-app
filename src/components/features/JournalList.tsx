@@ -14,14 +14,14 @@ import { emojiTable } from '@/lib/emojiTable';
 const JournalList = async () => {
   const journalEntries = await fetchJournalEntries()
 
-  const formatDate = (dateString:Date) => {
+  const formatDate = (dateString: Date) => {
     const options = { month: 'long', day: 'numeric', year: 'numeric' };
     const date = new Date(dateString);
     return date.toLocaleDateString('en-US', options);
   };
   return (
     <div className="flex flex-col">
-      {journalEntries.map((entry, index) => (
+      {journalEntries.body.map((entry, index) => (
         <Card key={index} className="my-2 flex-col items-center justify-between text-center">
           <CardHeader>
             {/* <CardTitle>{entry.title}</CardTitle> */}
