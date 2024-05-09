@@ -89,7 +89,11 @@ const JournalList = () => {
 
                   {/* {formatDate(entry.date)} */}
                 </div>
-                <button onClick={() => handleDeleteEntry(entry.id)} disabled={loading}>
+                <button
+                  onClick={() => handleDeleteEntry(entry.id)}
+                  disabled={loading}
+                  className="px-3 py-1 text-sm md:text-lg bg-red-500 text-white rounded-md shadow-md hover:bg-red-600 focus:outline-none focus:ring focus:ring-red-300 disabled:bg-gray-400 disabled:text-gray-600 disabled:cursor-not-allowed"
+                >
                   {loading ? 'Deleting...' : 'Delete'}
                 </button>
                 {/* <DeleteButton onDelete={handleDeleteEntry} entryId={entry.id} /> */}

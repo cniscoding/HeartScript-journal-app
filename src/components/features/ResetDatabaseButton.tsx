@@ -14,7 +14,7 @@ function ResetDatabaseButton() {
   };
 
   return (
-    <Button onClick={handleResetDatabase} className="mx-1">Reset Submissions</Button>
+    <Button onClick={handleResetDatabase} className="bg-[#38B2AC] hover:bg-[#186A66] md:text-lg">Reset Submissions</Button>
   );
 }
 

@@ -18,7 +18,7 @@ const JournalEntryForm: React.FC = () => {
   const defaultColor = 'red-500'
   const [color, setColor] = useState(defaultColor)
   const [date, setDate] = React.useState<Date | undefined>(new Date())
-  const [buttonText, setButtonText] = useState('Submit');
+  const [buttonText, setButtonText] = useState('Save');
 
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -41,7 +41,7 @@ const JournalEntryForm: React.FC = () => {
       setError('Failed to submit journal entry. Please try again.')
     } finally {
       setLoading(false)
-      setButtonText('Submit');
+      setButtonText('Save');
     }
   };
 
@@ -129,7 +129,7 @@ const JournalEntryForm: React.FC = () => {
             ></textarea>
           </div>
           {error && <p className="text-red-500">{error}</p>}
-          <button type="submit" className={`p-1 text-white rounded-lg ${loading ? 'bg-gray-500' : 'bg-blue-500 hover:bg-blue-600'}`}>
+          <button type="submit" className={`text-lg md:text-2xl p-1 text-white rounded-lg ${loading ? 'bg-gray-500' : 'bg-blue-500 hover:bg-blue-600'}`}>
             {buttonText}
           </button>
         </div>
