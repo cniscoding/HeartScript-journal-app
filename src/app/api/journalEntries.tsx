@@ -1,5 +1,5 @@
 'use server'
-
+import { unstable_noStore as noStore } from 'next/cache';
 import { sql, createPool } from '@vercel/postgres';
 import { JournalEntry } from '@/app/types';
 
@@ -11,6 +11,7 @@ let failedAttempts = 0;
 // ORDER BY ${sortBy} ${sortOrder}, created_at DESC
 export async function fetchJournalEntries(sortBy: string, sortOrder: string) {
   try {
+    noStore();
     const data: { rows: JournalEntry[] } = await sql<JournalEntry>`
     SELECT * FROM journal_app
     ORDER BY date DESC, created_at DESC
@@ -35,6 +36,7 @@ export async function fetchJournalEntries(sortBy: string, sortOrder: string) {
 
 export async function writeJournalEntry(entry: JournalEntry) {
   try {
+    noStore();
     await pool.sql`
       INSERT INTO journal_app (content, date, sentiments, sentimentScore)
       VALUES (${entry.content}, ${entry.date}, ${entry.sentiments}, ${entry.sentimentScore})

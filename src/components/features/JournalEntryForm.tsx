@@ -53,7 +53,7 @@ const JournalEntryForm: React.FC = () => {
             sentimentScore: response[0].score
           };
           await writeJournalEntry(entry);
-          // window.location.reload();
+          window.location.reload();
           console.log('Data written to the database successfully.');
         } else {
           console.log('Inference process did not return valid data.');

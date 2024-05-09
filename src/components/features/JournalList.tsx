@@ -24,11 +24,8 @@ const JournalList = async () => {
       {journalEntries.body.map((entry, index) => (
         <Card key={index} className="my-2 flex-col items-center justify-between text-center">
           <CardHeader>
-            {/* <CardTitle>{entry.title}</CardTitle> */}
-            {/* <CardTitle>{entry.date.toLocaleDateString()}</CardTitle> */}
             <CardTitle>{formatDate(entry.date)}</CardTitle>
             <CardDescription className="flex flex-col">
-              {/* {entry.date.toLocaleDateString()} */}
               <span className="">
                 {entry.sentiments} {emojiTable[entry.sentiments]?.emoji}
               </span>

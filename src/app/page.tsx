@@ -4,6 +4,9 @@ import React, { useState } from 'react';
 import JournalList from '@/components/features/JournalList';
 import JournalEntryForm from '@/components/features/JournalEntryForm';
 import JournalSortControls from '@/components/features/sortJournalEntry';
+import ReloadButton from '@/components/features/refreshButton';
+import SeedEntriesButton from '@/components/features/refreshSeedButton';
+
 
 const Home: React.FC = () => {
   // const [sortBy, setSortBy] = useState<string>('date');
@@ -12,6 +15,8 @@ const Home: React.FC = () => {
   return (
     <main className="flex min-h-screen min-w-screen flex-col p-24">
       <div>
+        <ReloadButton />
+        {/* <SeedEntriesButton /> */}
         <div>
           <h2>Journal Entry Form</h2>
           <JournalEntryForm />
