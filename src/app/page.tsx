@@ -1,11 +1,11 @@
+'use client'
 
-
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import JournalList from '@/components/features/JournalList';
 import JournalEntryForm from '@/components/features/JournalEntryForm';
 import JournalSortControls from '@/components/features/sortJournalEntry';
 import ReloadButton from '@/components/features/refreshButton';
-import SeedEntriesButton from '@/components/features/refreshSeedButton';
+import ResetDatabaseButton from '@/components/features/ResetDatabaseButton';
 
 
 const Home: React.FC = () => {
@@ -13,9 +13,17 @@ const Home: React.FC = () => {
   // const [sortOrder, setSortOrder] = useState<string>('DESC');
 
   return (
-    <main className="flex min-h-screen min-w-screen flex-col p-24">
+    <main className="flex min-h-screen min-w-screen flex-col p-6">
       <div>
-        <ReloadButton />
+        <div className="flex flex-col items-end">
+          <div>
+            FOR DEMO PURPOSES
+          </div>
+          <div>
+            <ResetDatabaseButton />
+            {/* <ReloadButton /> */}
+          </div>
+        </div>
         {/* <SeedEntriesButton /> */}
         <div>
           <h2>Journal Entry Form</h2>

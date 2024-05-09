@@ -9,7 +9,7 @@ const ReloadButton = () => {
   };
 
   return (
-    <Button onClick={handleReload}>Reload Page</Button>
+    <Button onClick={handleReload} className="mx-1">Reload Page</Button>
   );
 };
 
