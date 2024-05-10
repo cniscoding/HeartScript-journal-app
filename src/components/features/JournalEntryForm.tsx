@@ -105,9 +105,7 @@ const JournalEntryForm: React.FC = () => {
       <form onSubmit={handleSubmit} className="p-1 md:p-2 border-2 rounded-xl flex flex-col md:flex-row w-full h-full">
         {/* calender */}
         <div className="flex flex-col  items-center">
-          <div className="md:hidden">
-            <DatePicker />
-          </div>
+
           <Calendar
             mode="single"
             selected={date}
@@ -118,16 +116,22 @@ const JournalEntryForm: React.FC = () => {
         {/* Content Area with Submit */}
         <div className="flex flex-col w-full p-1 md:ml-2">
           <div className="flex-1">
-            <label htmlFor="content" className="text-center font-semibold pl-1 block text-gray-700">How was your day?</label>
+            <label htmlFor="content" className="text-center block text-4xl font-extrabold text-gray-800 mb-2">
+              How was your day?
+              <div className="md:hidden">
+                <DatePicker />
+              </div>
+            </label>
             <textarea
               id="content"
               value={content}
               onChange={(e) => setContent(e.target.value)}
               className="pt-1 pl-2 w-full text-gray-700 bg-gray-200 rounded-lg focus:outline-gray-300 focus:bg-gray-100 resize-none"
-              placeholder="I had a good day . . ."
+              placeholder="What's on your mind?"
               rows={9}
             ></textarea>
           </div>
+
           {error && <p className="text-red-500">{error}</p>}
           <button type="submit" className={`text-lg md:text-2xl p-1 text-white rounded-lg ${loading ? 'bg-gray-500' : 'bg-blue-500 hover:bg-blue-600'}`}>
             {buttonText}
