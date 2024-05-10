@@ -34,7 +34,7 @@ const JournalList = () => {
   }, []);
 
   const formatDate = (dateString: Date) => {
-    const options : Intl.DateTimeFormatOptions = { month: 'long', day: 'numeric', year: 'numeric' };
+    const options: Intl.DateTimeFormatOptions = { month: 'long', day: 'numeric', year: 'numeric' };
     const date = new Date(dateString);
     return date.toLocaleDateString('en-US', options);
   };
@@ -93,7 +93,7 @@ const JournalList = () => {
                 <button
                   onClick={() => handleDeleteEntry(entry.id)}
                   disabled={loading}
-                  className="px-3 py-1 text-sm md:text-lg bg-red-500 text-white rounded-md shadow-md hover:bg-red-600 focus:outline-none focus:ring focus:ring-red-300 disabled:bg-gray-400 disabled:text-gray-600 disabled:cursor-not-allowed"
+                  className="hidden md:flex px-3 py-1 text-sm md:text-lg bg-red-500 text-white rounded-md shadow-md hover:bg-red-600 focus:outline-none focus:ring focus:ring-red-300 disabled:bg-gray-400 disabled:text-gray-600 disabled:cursor-not-allowed"
                 >
                   {loading ? 'Deleting...' : 'Delete'}
                 </button>
@@ -113,6 +113,15 @@ const JournalList = () => {
             <CardContent>
               <p>{entry.content}</p>
             </CardContent>
+          </div>
+          <div className="flex justify-end mr-4 mb-4">
+            <button
+              onClick={() => handleDeleteEntry(entry.id)}
+              disabled={loading}
+              className="flex md:hidden px-3 py-1 text-sm md:text-lg bg-red-500 text-white rounded-md shadow-md hover:bg-red-600 focus:outline-none focus:ring focus:ring-red-300 disabled:bg-gray-400 disabled:text-gray-600 disabled:cursor-not-allowed"
+            >
+              {loading ? 'Deleting...' : 'Delete'}
+            </button>
           </div>
         </Card>
       ))}
