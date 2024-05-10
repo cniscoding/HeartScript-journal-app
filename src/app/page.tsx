@@ -16,7 +16,7 @@ const Home: React.FC = () => {
   return (
     <main className="flex min-h-screen min-w-screen flex-col p-6">
       <div>
-        <div className="flex justify-between m-4">
+        <div className="flex flex-col md:flex-row md:justify-between md:m-4">
           <div className="flex md:h-16 md:w-16 h-10 w-10">
             <Image
               src="/images/logo.png"
@@ -34,7 +34,7 @@ const Home: React.FC = () => {
               </span>
             </h2>
           </div>
-          <div className="flex flex-col justify-center items-center">
+          <div className="flex flex-col justify-center items-end md:items-center">
             <div className="md:text-md text-xs">
               <p>FOR DEMO PURPOSES</p>
             </div>
