@@ -44,6 +44,8 @@ const Home: React.FC = () => {
             </div>
           </div>
         </div>
+        <div className="bg-gray-800 text-white my-2 py-2 px-4 rounded-lg text-sm mb-4">
+        Please enter a descriptive journal entry. The language learning model API will analyze and respond with an emoji and corresponding emotion heading. To clear the entries, please press RESET DEMO.        </div>
         {/* <SeedEntriesButton /> */}
         <div className="py-4">
           {/* <h2 className="text-2xl font-bold text-gray-800 my-4">Journal Entry Form</h2> */}
