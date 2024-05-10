@@ -1,6 +1,7 @@
 'use client'
 import { deleteJournalEntry } from '@/app/api/journalEntries';
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { JournalEntry } from '@/app/types';
 
 import React, { useState, useEffect } from 'react';
 import {
@@ -15,7 +16,7 @@ import { emojiTable } from '@/lib/emojiTable';
 
 const JournalList = () => {
   const [loading, setLoading] = useState(true);
-  const [journalEntries, setJournalEntries] = useState([]);
+  const [journalEntries, setJournalEntries] = useState<JournalEntry[]>([]);
 
   const fetchData = async () => {
     try {
@@ -33,12 +34,12 @@ const JournalList = () => {
   }, []);
 
   const formatDate = (dateString: Date) => {
-    const options = { month: 'long', day: 'numeric', year: 'numeric' };
+    const options : Intl.DateTimeFormatOptions = { month: 'long', day: 'numeric', year: 'numeric' };
     const date = new Date(dateString);
     return date.toLocaleDateString('en-US', options);
   };
 
-  const handleDeleteEntry = async (entryId) => {
+  const handleDeleteEntry = async (entryId: any) => {
     setLoading(true);
     try {
       await deleteJournalEntry(entryId);

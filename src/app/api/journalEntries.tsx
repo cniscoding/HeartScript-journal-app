@@ -10,7 +10,8 @@ const pool = createPool({
 
 let failedAttempts = 0;
 // ORDER BY ${sortBy} ${sortOrder}, created_at DESC
-export async function fetchJournalEntries(sortBy: string, sortOrder: string) {
+// export async function fetchJournalEntries(sortBy: string, sortOrder: string) {
+export async function fetchJournalEntries() {
   noStore();
   try {
     const data: { rows: JournalEntry[] } = await sql<JournalEntry>`
@@ -28,10 +29,11 @@ export async function fetchJournalEntries(sortBy: string, sortOrder: string) {
     }
   } catch (error) {
     failedAttempts++
-    if (failedAttempts > 1) {
-      throw new Error('Failed to fetch journal data. Retry limit exceeded.');
+    if (error instanceof Error) {
+      throw new Error('Failed to fetch journal data. ' + error.message);
+    } else {
+      throw new Error('Failed to fetch journal data. An unknown error occurred.');
     }
-    throw new Error('Failed to fetch journal data.' + error.message);
   }
 }
 
@@ -40,7 +42,7 @@ export async function writeJournalEntry(entry: JournalEntry) {
   try {
     await pool.sql`
       INSERT INTO journal_app (content, date, sentiments, sentimentScore)
-      VALUES (${entry.content}, ${entry.date}, ${entry.sentiments}, ${entry.sentimentScore})
+      VALUES (${entry.content}, ${entry.date.toISOString()}, ${entry.sentiments}, ${entry.sentimentScore})
       RETURNING *
       `;
     console.log('injected successfully from journalEntries API')
@@ -54,12 +56,16 @@ export async function writeJournalEntry(entry: JournalEntry) {
       body: JSON.stringify({ success: true })
     }
   } catch (error) {
-    throw new Error('Failed to write journal entry.' + error.message);
+    if (error instanceof Error) {
+      throw new Error('Failed to write journal entry.' + error.message);
+    } else {
+      throw new Error('Failed to fetch journal data. An unknown error occurred.');
+    }
   }
 }
 
 
-export async function deleteJournalEntry(entryId) {
+export async function deleteJournalEntry(entryId: number | string) {
   try {
     await pool.sql`
       DELETE FROM journal_app
@@ -75,11 +81,15 @@ export async function deleteJournalEntry(entryId) {
       body: JSON.stringify({ success: true })
     }
   } catch (error) {
-    throw new Error('Failed to delete journal entry.' + error.message);
+    if (error instanceof Error) {
+      throw new Error('Failed to delete journal entry.' + error.message);
+    } else {
+      throw new Error('Failed to fetch journal data. An unknown error occurred.');
+    }
   }
 }
 
-export async function handleDeleteEntry(entryId) {
+export async function handleDeleteEntry(entryId: string | number) {
   try {
     const response = await deleteJournalEntry(entryId);
   } catch (error) {

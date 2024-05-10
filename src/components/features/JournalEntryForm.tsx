@@ -83,7 +83,13 @@ const JournalEntryForm: React.FC = () => {
   //     console.log('FilteredResponseArray', filteredResponseArray)
   // }, [output]);
 
-  function filterResponses(emotions: TextClassificationOutput[]) {
+  interface Emotion {
+    score: number;
+    length: number;
+    shift: any;
+  }
+  
+  function filterResponses(emotions: Emotion) {
     const filteredEmotionArray: (TextClassificationOutput | undefined)[] = [];
     const firstEmotion = emotions.shift();
     filteredEmotionArray.push(firstEmotion);

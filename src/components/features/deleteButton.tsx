@@ -2,7 +2,11 @@ import React from 'react';
 import { Button } from '../ui/button';
 import { deleteJournalEntry } from '@/app/api/journalEntries';
 
-const DeleteButton = ({entryId}) => {
+interface DeleteButtonProps {
+  entryId: string | number;
+}
+
+const DeleteButton: React.FC<DeleteButtonProps> = ({ entryId }) => {
   const handleClick = async () => {
     try {
       await deleteJournalEntry(entryId);

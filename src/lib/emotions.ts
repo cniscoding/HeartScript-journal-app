@@ -28,8 +28,13 @@ export async function runInference(input: string) {
     throw new Error('Failed to run inference');
   }
 }
+interface Emotion {
+  score: number;
+  length: number;
+  shift: any;
+}
 
-function filterResponses(emotions) {
+function filterResponses(emotions : Emotion) {
   const filteredEmotionArray = []
   const firstEmotion = emotions.shift();
   filteredEmotionArray.push(firstEmotion);
