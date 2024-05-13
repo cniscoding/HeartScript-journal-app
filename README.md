@@ -19,6 +19,7 @@ Mobile View
 ## Setup
 
 1. Run `npm install` to install dependencies
-2. Create .env file based on the example.env. Add OPENWEATHERMAP API key.
+2. Create .env file based on the example.env. Add POSTGRES_URL & HF_TOKEN API key.
 3. Run `npm run dev` to start development mode
 4. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+5. Press "Reset Demo" button located at the top right corner for the initial seed.
